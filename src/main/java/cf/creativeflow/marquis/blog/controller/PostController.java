@@ -4,7 +4,9 @@ import cf.creativeflow.marquis.blog.domain.Post;
 import cf.creativeflow.marquis.blog.exceptions.PostNotFoundException;
 import cf.creativeflow.marquis.blog.repository.PostRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.BeanInfoFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +22,9 @@ import java.util.stream.Collectors;
 public class PostController {
 
     private final PostRepository postRepository;
-    private final ObjectMapper objectMapper;
 
     PostController(PostRepository postRepository, ObjectMapper objectMapper){
         this.postRepository = postRepository;
-        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -34,10 +34,9 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public Post getPostById(@PathVariable Long id){
+    public Post getPostById(@PathVariable("id") Post post){
 
-        return postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(id));
+        return post;
     }
 
     @PostMapping
@@ -46,34 +45,28 @@ public class PostController {
         Date creationDate = new Date();
         post.setCreationDate(creationDate);
         post.setLastChangeDate(creationDate);
-        System.out.println(post);
 
         return postRepository.save(post);
     }
 
     @PutMapping("/{id}")
-    public Post fullUpdatePostById(@PathVariable Long id, @RequestBody Post modifiedPost){
+    public Post fullUpdatePostById(@PathVariable("id") Post post, @RequestBody Post modifiedPost){
 
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(id));
-        BeanUtils.copyProperties(modifiedPost, post, "id");
+        BeanUtils.copyProperties(modifiedPost, post, "id", "creationDate");
         post.setLastChangeDate(new Date());
+
 
         return postRepository.save(post);
     }
 
     @PatchMapping("/{id}")
-    public Post partialUpdatePostById(@PathVariable Long id){
+    public Post partialUpdatePostById(@PathVariable("id") Post post){
 
-        return postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(id));
+        return post;
     }
 
     @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable Long id){
-
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(id));
+    public void deletePost(@PathVariable("id") Post post){
 
         postRepository.delete(post);
     }
