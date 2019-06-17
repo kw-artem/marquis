@@ -1,14 +1,18 @@
 package cf.creativeflow.marquis.blog.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Data
 @Table(name="posts")
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(of = {"id"})
 public class Post {
 
     @Id
@@ -32,6 +36,4 @@ public class Post {
     //private String description;
 
     private String tags;
-
-    public Post() {}
 }
