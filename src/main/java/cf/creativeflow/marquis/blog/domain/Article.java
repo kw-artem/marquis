@@ -9,14 +9,13 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name="posts")
+@Table(name = "articles")
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class Post {
+public class Article {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(updatable = false)
     private Long id;
 
