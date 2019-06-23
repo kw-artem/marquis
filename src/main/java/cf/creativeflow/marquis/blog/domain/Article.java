@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
 
@@ -19,6 +21,7 @@ public class Article {
     @Column(updatable = false)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String title;
 
