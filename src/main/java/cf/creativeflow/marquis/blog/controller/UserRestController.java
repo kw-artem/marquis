@@ -13,14 +13,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserRestController {
 
     private final UserRepository userRepository;
     //temp line
     private ResponseEntityExceptionHandler responseEntityExceptionHandler;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserRestController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
